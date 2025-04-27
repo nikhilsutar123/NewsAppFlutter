@@ -26,13 +26,38 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
                           "Top Headlines",
                           style: textThemeBlack(20),
                         ),
-                        Text(
-                          "Show more",
-                          style: textThemeBlack(20),
-                        ),
+                        // Text(
+                        //   "Show more",
+                        //   style: textThemeBlack(20),
+                        //
+                        // ),
                       ],
                     ),
                   ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                            elevation: 2,
+                            child: ListTile(
+                              //contentPadding: EdgeInsets.all(0),
+                              leading: Image(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  "lib/asset/image/news.jpg",
+                                ),
+                              ),
+                              title: Text(
+                                "This is the title",
+                                style:
+                                    textThemeBlack(20, style: FontStyle.normal),
+                              ),
+                              subtitle: Text("By Nikhil sutar 26th Apr"),
+                            )),
+                      ),
+                      Expanded(child: Card())
+                    ],
+                  )
                 ],
               ),
             )));

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/res/constant.dart';
+import 'package:news_app/view/headlines_screen/headlines_homescreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: Constant.newsApp,
+      home: HeadlinesHomescreen()
     );
   }
 }

@@ -3,6 +3,7 @@ class Constant{
   Constant._();
 
   static const baseUrl = "https://newsapi.org/v2/";
+  static const newsApp = "News App";
   static const timeout = 10;
   static const successCode  = 200;
   static const badRequest  = 400;
