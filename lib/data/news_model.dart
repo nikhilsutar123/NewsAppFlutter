@@ -35,11 +35,11 @@ class Article {
 }
 
 class Source {
-  String id;
+  String? id;
   String name;
 
   Source({
-    required this.id,
+    this.id,
     required this.name,
   });
 
