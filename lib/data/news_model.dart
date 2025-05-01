@@ -1,46 +1,72 @@
 class News {
-  String status;
-  int totalResults;
-  List<Article> articles;
+  final String? status;
+  final int? totalResults;
+  final List<Article>? articles;
 
-  News({
-    required this.status,
-    required this.totalResults,
-    required this.articles,
+  const News({
+    this.status,
+    this.totalResults,
+    this.articles,
   });
 
+  factory News.fromJson(Map<String, dynamic> json) {
+    return News(
+        status: json['status'],
+        totalResults: json['totalResults'],
+        articles: json['articles'] != null
+            ? List<Article>.from(
+                json['articles'].map((x) => Article.fromJson(x)))
+            : []);
+  }
 }
 
 class Article {
-  Source source;
-  String author;
-  String title;
-  String description;
-  String url;
-  String urlToImage;
-  DateTime publishedAt;
-  String content;
+  final Source? source;
+  final String? author;
+  final String? title;
+  final String? description;
+  final String? url;
+  final String? urlToImage;
+  final DateTime? publishedAt;
+  final String? content;
 
-  Article({
-    required this.source,
-    required this.author,
-    required this.title,
-    required this.description,
-    required this.url,
-    required this.urlToImage,
-    required this.publishedAt,
-    required this.content,
+  const Article({
+    this.source,
+    this.author,
+    this.title,
+    this.description,
+    this.url,
+    this.urlToImage,
+    this.publishedAt,
+    this.content,
   });
 
+  factory Article.fromJson(Map<String, dynamic> json) {
+    return Article(
+        source: Source.fromJson(json['source']),
+        author: json['author'] ?? '',
+        title: json['title'] ?? '',
+        description: json['description'] ?? '',
+        url: json['url'] ?? '',
+        urlToImage: json['urlToImage'] ?? '',
+        publishedAt: DateTime.parse(json['publishedAt']),
+        content: json['content'] ?? '');
+  }
 }
 
 class Source {
-  String? id;
-  String name;
+  final String? id;
+  final String? name;
 
-  Source({
+  const Source({
     this.id,
-    required this.name,
+    this.name,
   });
 
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      id: json['id'],
+      name: json['name'] ?? '',
+    );
+  }
 }

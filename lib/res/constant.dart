@@ -3,7 +3,7 @@ class Constant {
 
   /// api constants*
   static const baseUrl = "https://newsapi.org/v2/";
-
+  static const headlines = "${baseUrl}top-headlines?country=us&apiKey=c9352055c9294ad588fcd013fe50381c";
   /// app constants*
   static const newsApp = "News App";
   static const blackDot = "●";

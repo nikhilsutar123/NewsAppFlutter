@@ -31,11 +31,9 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              const Image(
+              Image(
                 fit: BoxFit.cover,
-                image: AssetImage(
-                  "lib/asset/image/news.jpg",
-                ),
+                image: NetworkImage(widget.article!.urlToImage.toString()),
               ),
               Container(
                 decoration: const BoxDecoration(
@@ -88,7 +86,7 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    widget.article!.title,
+                    widget.article!.title.toString(),
                     maxLines: 3,
                     softWrap: true,
                     style: textThemeWhiteShadow(16,

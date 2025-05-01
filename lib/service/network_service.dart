@@ -8,7 +8,7 @@ class NetworkService {
       connectTimeout: const Duration(seconds: Constant.timeout),
       contentType: 'application/json'));
 
-  static Future<Response> getRequest(String url,
+  static Future<Response<dynamic>> getRequest(String url,
       {Map<String, dynamic>? data}) async {
     try {
       final response = await _dio.get(url, data: data ?? {});
