@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/data/news_model.dart';
+import 'package:news_app/util/app_functions.dart';
 
 import '../../res/constant.dart';
 import '../../theme/app_theme.dart';
@@ -53,7 +54,7 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "By ${widget.article!.author} ${Constant.blackDot} ${widget.article!.publishedAt}",
+                    "By ${widget.article!.author} ${Constant.blackDot} ${formatDate(widget.article!.publishedAt)}",
                     style: textThemeWhiteShadow(14,
                         style: FontStyle.normal,
                         blurRadius: 5,

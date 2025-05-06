@@ -26,62 +26,65 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Center(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Top Headlines",
-                        style: textThemeBlack(20),
-                      ),
-                      // Text(
-                      //   "Show more",
-                      //   style: textThemeBlack(20),
-                      //
-                      // ),
-                    ],
+      body: SafeArea(
+        child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Top Headlines",
+                          style: textThemeBlack(20),
+                        ),
+                        // Text(
+                        //   "Show more",
+                        //   style: textThemeBlack(20),
+                        //
+                        // ),
+                      ],
+                    ),
                   ),
-                ),
-                BlocBuilder<HeadlinesBloc, HeadlinesStates>(
-                  builder: (context, state) {
-                    switch (state.status) {
-                      case ApiStatus.loading:
-                        return Align(
-                            alignment: Alignment.center,
-                            child: const CircularProgressIndicator());
-                      case ApiStatus.success:
-                        return Expanded(
-                          child: ListView.builder(
-                              itemCount: state.news.articles!.length,
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: HeadlineNewsSingleItem(
-                                      article: state.news.articles![index]),
-                                );
-                              }),
-                        );
-                      case ApiStatus.failure:
-                        return Center(
-                            child: Text(
-                          state.news.status.toString(),
-                          style: textThemeBlack(14),
-                        ));
-                    }
-                  },
-                ),
-              ],
-            ),
-          )),
-    ));
+                  BlocBuilder<HeadlinesBloc, HeadlinesStates>(
+                    builder: (context, state) {
+                      switch (state.status) {
+                        case ApiStatus.loading:
+                          return const Align(
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator());
+                        case ApiStatus.success:
+                          return Expanded(
+                            child: ListView.builder(
+                                itemCount: state.news.articles!.length,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8),
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                    child: HeadlineNewsSingleItem(
+                                        article: state.news.articles![index]),
+                                  );
+                                }),
+                          );
+                        case ApiStatus.failure:
+                          return Center(
+                              child: Text(
+                                state.news.status.toString(),
+                                style: textThemeBlack(14),
+                              ));
+                      }
+                    },
+                  ),
+                ],
+              ),
+            )),
+      ),
+      bottomNavigationBar: BottomNavigationBar(items: [],),
+    );
   }
 }

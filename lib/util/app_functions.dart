@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../res/colors.dart';
 import '../theme/app_theme.dart';
 
-dismissKeyboard(){
+dismissKeyboard() {
   FocusManager.instance.primaryFocus?.unfocus();
 }
 
@@ -36,9 +37,11 @@ showSnackBar(context, String msg,
     ),
     action: (onPress != null)
         ? SnackBarAction(
-        textColor: Appcolor.black,
-        label: label ?? "",
-        onPressed: onPress!)
+            textColor: Appcolor.black, label: label ?? "", onPressed: onPress!)
         : null,
   ));
+}
+
+String formatDate(DateTime? date) {
+  return DateFormat("dd MMM yyyy").format(date!.toLocal()).toString();
 }
