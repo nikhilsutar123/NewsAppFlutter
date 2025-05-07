@@ -45,7 +45,7 @@ class _SavedNewsState extends State<SavedNews> {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image(image: AssetImage('asset/image/news.jpg')),
+                  child: const Image(image: AssetImage('asset/image/news.jpg')),
                 )
               ],
             ),
