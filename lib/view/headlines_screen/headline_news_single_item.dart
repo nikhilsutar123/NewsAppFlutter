@@ -34,7 +34,9 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
             children: [
               Image(
                 fit: BoxFit.cover,
-                image: NetworkImage(widget.article!.urlToImage.toString()),
+                image: widget.article!.urlToImage!.isEmpty
+                    ? const AssetImage(Constant.placeholder)
+                    : NetworkImage(widget.article!.urlToImage.toString()),
               ),
               Container(
                 decoration: const BoxDecoration(
@@ -54,7 +56,9 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "By ${widget.article!.author} ${Constant.blackDot} ${formatDate(widget.article!.publishedAt)}",
+                    widget.article!.author!.isEmpty
+                        ? formatDate(widget.article!.publishedAt)
+                        : "By ${widget.article!.author} ${Constant.blackDot} ${formatDate(widget.article!.publishedAt)}",
                     style: textThemeWhiteShadow(14,
                         style: FontStyle.normal,
                         blurRadius: 5,

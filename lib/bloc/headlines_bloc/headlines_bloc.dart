@@ -11,6 +11,7 @@ import 'headlines_state.dart';
 
 class HeadlinesBloc extends Bloc<HeadlinesEvent, HeadlinesStates> {
   final HeadlinesRepository repository = HeadlinesRepository();
+
   HeadlinesBloc() : super(const HeadlinesStates()) {
     on<HeadlinesFetched>(_getHeadlines);
   }
@@ -18,12 +19,15 @@ class HeadlinesBloc extends Bloc<HeadlinesEvent, HeadlinesStates> {
   void _getHeadlines(
       HeadlinesFetched event, Emitter<HeadlinesStates> emit) async {
     emit(state.copyWith(status: ApiStatus.loading));
-    try{
+    try {
       final response = await repository.headlinesRepo();
       final newsList = News.fromJson(response.data);
+      newsList.articles!.removeWhere((news) {
+        return news.content == null;
+      });
       logConsole("news data ${newsList.status} ${newsList.articles!.length}");
-      emit(state.copyWith(status: ApiStatus.success,news: newsList));
-    }catch(e){
+      emit(state.copyWith(status: ApiStatus.success, news: newsList));
+    } catch (e) {
       emit(state.copyWith(status: ApiStatus.failure));
       logConsole("went wrong ${e.toString()}");
       rethrow;

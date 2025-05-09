@@ -84,7 +84,7 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
               ),
             )),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [],),
+     // bottomNavigationBar: BottomNavigationBar(items: [],),
     );
   }
 }

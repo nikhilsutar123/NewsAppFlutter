@@ -15,43 +15,57 @@ class _SavedNewsState extends State<SavedNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
+      body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius:  BorderRadius.circular(10),
-                border: Border.all(color: Appcolor.black)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text(
+        padding: const EdgeInsets.all(16),
+        child: Container(
+          width: double.infinity,
+          margin: const EdgeInsets.all(8),
+          // decoration: BoxDecoration(
+          //     gradient: const LinearGradient(
+          //       begin: Alignment.topCenter,
+          //         end: Alignment.bottomCenter,
+          //         colors: [
+          //           Colors.black26,
+          //           Colors.transparent,
+          //           Colors.transparent,
+          //           Colors.black45
+          //         ])
+          // ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Text(
                       "Inside the multi-day meltdown at Newark airport - CNN",
                       style: textThemeBlack(14),
+                      softWrap: true,
+                      maxLines: 2,
                     ),
-                    Text(
+                  ),
+                  Flexible(
+                    child: Text(
                       "By Nikhil Sutar ${Constant.blackDot} 26 Apr 2025",
-                      style: textThemeWhiteShadow(14,
-                          style: FontStyle.normal,
-                          blurRadius: 5,
-                          color: Colors.black.withOpacity(0.7),
-                          offset: const Offset(0, 1)),
+                      style: textThemeBlack(14),
                     ),
-                  ],
-                ),
-                ClipRRect(
+                  ),
+                ],
+              ),
+              Flexible(
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: const Image(image: AssetImage('asset/image/news.jpg')),
-                )
-              ],
-            ),
+                  child: const Image(
+                    image: AssetImage('lib/asset/image/news.jpg'),
+                  ),
+                ),
+              )
+            ],
           ),
-        ))
-    ,
+        ),
+      )),
     );
   }
 }
