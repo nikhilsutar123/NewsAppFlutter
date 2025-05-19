@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_event.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_state.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/api_enum.dart';
+import 'package:news_app/util/app_exceptions.dart';
 import 'package:news_app/view/headlines_screen/headline_news_single_item.dart';
 
 import '../../bloc/headlines_bloc/headlines_bloc.dart';
@@ -20,7 +22,6 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
   @override
   void initState() {
     super.initState();
-    context.read<HeadlinesBloc>().add(HeadlinesFetched());
   }
 
   @override
@@ -60,12 +61,12 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
                           return Expanded(
                             child: ListView.builder(
                                 itemCount: state.news.articles!.length,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8),
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 8),
                                 itemBuilder: (context, index) {
                                   return Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
                                     child: HeadlineNewsSingleItem(
                                         article: state.news.articles![index]),
                                   );
@@ -84,7 +85,6 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
               ),
             )),
       ),
-     // bottomNavigationBar: BottomNavigationBar(items: [],),
     );
   }
 }

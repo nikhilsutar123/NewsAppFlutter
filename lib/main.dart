@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/bloc/bottom_navigation_bloc/bottom_navigation_bloc.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_bloc.dart';
 import 'package:news_app/res/constant.dart';
 import 'package:news_app/util/app_bloc_providers.dart';
+import 'package:news_app/view/bottom_navigation/bottom_navigation.dart';
 import 'package:news_app/view/headlines_screen/headlines_homescreen.dart';
 import 'package:news_app/view/saved_news/saved_news.dart';
+import 'package:news_app/view/saved_news/saved_news_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,10 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => HeadlinesBloc())
+        BlocProvider(create: (_) => HeadlinesBloc()),
+        BlocProvider(create: (_) => BottomNavigationBloc())
       ],
       child: const MaterialApp(
-          title: Constant.newsApp, home: SavedNews()),
+          title: Constant.newsApp, home: BottomNavigation()),
     );
   }
 }

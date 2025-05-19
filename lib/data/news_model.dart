@@ -9,6 +9,13 @@ class News {
     this.articles,
   });
 
+  News copyWith({String? status, int? totalResults, List<Article>? articles}) {
+    return News(
+        status: status ?? this.status,
+        totalResults: totalResults ?? this.totalResults,
+        articles: articles ?? this.articles);
+  }
+
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
         status: json['status'],

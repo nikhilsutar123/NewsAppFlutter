@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import '../res/colors.dart';
 
 TextStyle textThemeBlack(double size, {FontStyle? style}) => TextStyle(
     fontSize: size,
     fontWeight: FontWeight.w400,
+    fontStyle: style ?? FontStyle.normal,
+    color: Appcolor.black);
+
+TextStyle textThemeGrey(double size, {FontStyle? style}) => TextStyle(
+    fontSize: size,
+    fontWeight: FontWeight.w400,
+    fontStyle: style ?? FontStyle.normal,
+    color: Appcolor.grey);
+
+TextStyle textThemeBlackBold(double size, {FontStyle? style}) => TextStyle(
+    fontSize: size,
+    fontWeight: FontWeight.bold,
     fontStyle: style ?? FontStyle.normal,
     color: Appcolor.black);
 

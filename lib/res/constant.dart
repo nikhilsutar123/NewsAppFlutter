@@ -3,8 +3,9 @@ class Constant {
 
   /// api constants*
   static const baseUrl = "https://newsapi.org/v2/";
-  static const headlines =
-      "${baseUrl}top-headlines?country=us&page=2&apiKey=c9352055c9294ad588fcd013fe50381c";
+  static const headlines = "${baseUrl}top-headlines";
+  static const countryCodeUs = "us";
+  static const apiKey = "c9352055c9294ad588fcd013fe50381c";
 
   /// app constants*
   static const newsApp = "News App";
@@ -18,4 +19,6 @@ class Constant {
 
   /// image path
   static const placeholder = "lib/asset/image/placeholder.png";
+  static const homescreenIcon = "lib/asset/image/home.svg";
+  static const savedNewsIcon = "lib/asset/image/saved.svg";
 }
