@@ -6,8 +6,4 @@ abstract class HeadlinesEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class HeadlinesFetched extends HeadlinesEvent {
-  final String pageNum;
-
-  HeadlinesFetched(this.pageNum);
-}
+class HeadlinesFetched extends HeadlinesEvent {}

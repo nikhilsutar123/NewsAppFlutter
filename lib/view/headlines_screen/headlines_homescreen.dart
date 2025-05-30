@@ -7,6 +7,7 @@ import 'package:news_app/data/news_model.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/api_enum.dart';
 import 'package:news_app/util/app_exceptions.dart';
+import 'package:news_app/util/app_functions.dart';
 import 'package:news_app/view/headlines_screen/headline_news_single_item.dart';
 
 import '../../bloc/headlines_bloc/headlines_bloc.dart';
@@ -19,9 +20,19 @@ class HeadlinesHomescreen extends StatefulWidget {
 }
 
 class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
+  late final HeadlinesBloc _bloc;
+
   @override
   void initState() {
     super.initState();
+    _bloc = HeadlinesBloc();
+    _bloc.add(HeadlinesFetched());
+  }
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 
   @override
@@ -50,35 +61,20 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
                       ],
                     ),
                   ),
-                  BlocBuilder<HeadlinesBloc, HeadlinesStates>(
+                  BlocBuilder<HeadlinesBloc, PagingState<int, Article>>(
+                    bloc: _bloc,
                     builder: (context, state) {
-                      switch (state.status) {
-                        case ApiStatus.loading:
-                          return const Align(
-                              alignment: Alignment.center,
-                              child: CircularProgressIndicator());
-                        case ApiStatus.success:
-                          return Expanded(
-                            child: ListView.builder(
-                                itemCount: state.news.articles!.length,
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 8),
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: HeadlineNewsSingleItem(
-                                        article: state.news.articles![index]),
-                                  );
-                                }),
-                          );
-                        case ApiStatus.failure:
-                          return Center(
-                              child: Text(
-                                state.news.status.toString(),
-                                style: textThemeBlack(14),
-                              ));
-                      }
+                      return Expanded(
+                        child: PagedListView<int, Article>(
+                            state: state,
+                            fetchNextPage: _bloc.fetchNextPage,
+                            builderDelegate: PagedChildBuilderDelegate<Article>(
+                                animateTransitions: true,
+                                itemBuilder: (context, article, index) {
+                                  logConsole("articles $article");
+                                  return HeadlineNewsSingleItem(article: article);
+                                })),
+                      );
                     },
                   ),
                 ],

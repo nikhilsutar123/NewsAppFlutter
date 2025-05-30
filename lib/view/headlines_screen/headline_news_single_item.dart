@@ -20,89 +20,103 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final imageUrl = widget.article!.urlToImage;
     return SizedBox(
       width: double.infinity,
       height: deviceSize.height / 3.6,
-      child: Card(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        elevation: 5,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image(
-                fit: BoxFit.cover,
-                image: widget.article!.urlToImage!.isEmpty
-                    ? const AssetImage(Constant.placeholder)
-                    : NetworkImage(widget.article!.urlToImage.toString()),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                      Colors.black45,
-                      Colors.transparent,
-                      Colors.transparent,
-                      Colors.black45
-                    ])),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    widget.article!.author!.isEmpty
-                        ? formatDate(widget.article!.publishedAt)
-                        : "By ${widget.article!.author} ${Constant.blackDot} ${formatDate(widget.article!.publishedAt)}",
-                    style: textThemeWhiteShadow(14,
-                        style: FontStyle.normal,
-                        blurRadius: 5,
-                        color: Colors.black.withOpacity(0.7),
-                        offset: const Offset(0, 1)),
+      child: InkWell(
+        onTap: () {},
+        child: Card(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          elevation: 5,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                imageUrl != null && imageUrl.isNotEmpty
+                    ? Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stacktrace) {
+                          return Image.asset(Constant.placeholder,
+                              fit: BoxFit.cover);
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      )
+                    : Image.asset(Constant.placeholder, fit: BoxFit.cover),
+                Container(
+                  decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        Colors.black45,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.black45
+                      ])),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      widget.article!.author!.isEmpty
+                          ? formatDate(widget.article!.publishedAt)
+                          : "By ${widget.article!.author} ${Constant.blackDot} ${formatDate(widget.article!.publishedAt)}",
+                      style: textThemeWhiteShadow(14,
+                          style: FontStyle.normal,
+                          blurRadius: 5,
+                          color: Colors.black.withOpacity(0.7),
+                          offset: const Offset(0, 1)),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isFavAdded = !isFavAdded;
-                      });
-                    },
-                    icon: isFavAdded
-                        ? const Icon(Icons.favorite)
-                        : const Icon(
-                            Icons.favorite_border,
-                          ),
-                    color: isFavAdded ? Colors.red : Colors.white,
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isFavAdded = !isFavAdded;
+                        });
+                      },
+                      icon: isFavAdded
+                          ? const Icon(Icons.favorite)
+                          : const Icon(
+                              Icons.favorite_border,
+                            ),
+                      color: isFavAdded ? Colors.red : Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    widget.article!.title.toString(),
-                    maxLines: 3,
-                    softWrap: true,
-                    style: textThemeWhiteShadow(16,
-                        style: FontStyle.normal,
-                        blurRadius: 5,
-                        color: Colors.black.withOpacity(0.9),
-                        offset: const Offset(0, 1)),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      widget.article!.title.toString(),
+                      maxLines: 3,
+                      softWrap: true,
+                      style: textThemeWhiteShadow(16,
+                          style: FontStyle.normal,
+                          blurRadius: 5,
+                          color: Colors.black.withOpacity(0.9),
+                          offset: const Offset(0, 1)),
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

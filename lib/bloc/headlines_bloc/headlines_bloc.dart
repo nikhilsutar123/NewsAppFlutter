@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -13,54 +14,34 @@ import 'headlines_state.dart';
 class HeadlinesBloc extends Bloc<HeadlinesEvent, PagingState<int, Article>> {
   final HeadlinesRepository repository = HeadlinesRepository();
 
-  HeadlinesBloc() : super(PagingState()) {
+  HeadlinesBloc() : super(PagingState<int, Article>()) {
     on<HeadlinesFetched>(_getHeadlines);
   }
 
   Future<void> _getHeadlines(
       HeadlinesFetched event, Emitter<PagingState<int, Article>> emit) async {
-    if(!state.hasNextPage || state.isLoading) return;
+    if (!state.hasNextPage || state.isLoading) return;
 
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, error: null));
+    try {
+      final nextPage = (state.keys?.last ?? 0) + 1;
+      final response = await repository.headlinesRepo(nextPage.toString());
 
-    // try{
-    //   final pageNum = int.tryParse(event.pageNum) ?? 1;
-    //   final response = await repository.headlinesRepo(event.pageNum);
-    //   final newsList = News.fromJson(response.data);
-    //   newsList.articles!.removeWhere((news) {
-    //   return news.content == null;
-    // });
-    //   final newItems = newsList.articles ?? [];
-    //   final isLastPage = newItems.length < 20;
-    // }
+      final newsList = News.fromJson(response.data);
+      newsList.articles?.removeWhere((article) => article.content == null);
+
+      final newsItems = newsList.articles ?? [];
+      final isLastPage = newsItems.isEmpty;
+
+      emit(state.copyWith(
+          pages: [...?state.pages, newsItems],
+          keys: [...?state.keys, nextPage],
+          hasNextPage: !isLastPage,
+          isLoading: false));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, error: e));
+    }
   }
-// void _getHeadlines(
-//     HeadlinesFetched event, Emitter<HeadlinesStates> emit) async {
-//   try {
-//     bool isFirstPage = event.pageNum.contains(1.toString());
-//     if (isFirstPage) {
-//       emit(state.copyWith(status: ApiStatus.loading));
-//     }
-//     final response = await repository.headlinesRepo(event.pageNum);
-//     final newsList = News.fromJson(response.data);
-//     newsList.articles!.removeWhere((news) {
-//       return news.content == null;
-//     });
-//     final List<Article> currArticles =
-//         isFirstPage ? [] : (state.news.articles ?? []);
-//
-//     final List<Article> updatedArticles = [
-//       ...currArticles,
-//       ...(newsList.articles ?? [])
-//     ];
-//
-//     final mergedNews = newsList.copyWith(articles: updatedArticles);
-//     logConsole("mergedNews data ${mergedNews.status} ${mergedNews.articles!.length}");
-//     emit(state.copyWith(status: ApiStatus.success, news: mergedNews));
-//   } catch (e) {
-//     emit(state.copyWith(status: ApiStatus.failure));
-//     logConsole("went wrong ${e.toString()}");
-//     rethrow;
-//   }
-// }
+
+  void fetchNextPage() => add(HeadlinesFetched());
 }
