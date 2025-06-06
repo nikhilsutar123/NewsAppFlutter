@@ -42,21 +42,30 @@ class _BottomNavigationState extends State<BottomNavigation> {
       builder: (BuildContext context, state) {
         return Scaffold(
           body: _screens[state.selectedIndex],
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.shifting,
-            currentIndex: state.selectedIndex,
-            onTap: (index) {
-              context.read<BottomNavigationBloc>().add(NavigateTo(index));
-            },
-            selectedItemColor: Appcolor.primaryColor,
-            selectedLabelStyle: textThemeBlackBold(14),
-            unselectedLabelStyle: textThemeBlackBold(13),
-            items: [
-              _buildNavItem(
-                  Constant.homescreenIcon, state.selectedIndex == 0, "Home"),
-              _buildNavItem(
-                  Constant.savedNewsIcon, state.selectedIndex == 1, "Saved"),
-            ],
+          bottomNavigationBar: Container(
+            decoration: const BoxDecoration(boxShadow: [
+              BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10)
+            ]),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.shifting,
+                currentIndex: state.selectedIndex,
+                onTap: (index) {
+                  context.read<BottomNavigationBloc>().add(NavigateTo(index));
+                },
+                selectedItemColor: Appcolor.primaryColor,
+                selectedLabelStyle: textThemeBlackBold(14),
+                unselectedLabelStyle: textThemeBlackBold(13),
+                items: [
+                  _buildNavItem(Constant.homescreenIcon,
+                      state.selectedIndex == 0, "Home"),
+                  _buildNavItem(Constant.savedNewsIcon,
+                      state.selectedIndex == 1, "Saved"),
+                ],
+              ),
+            ),
           ),
         );
       },

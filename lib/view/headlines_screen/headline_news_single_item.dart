@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/data/news_model.dart';
+import 'package:news_app/res/colors.dart';
 import 'package:news_app/util/app_functions.dart';
 
 import '../../res/constant.dart';
@@ -60,7 +61,7 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                         Colors.black45,
                         Colors.transparent,
                         Colors.transparent,
-                        Colors.black45
+                        Colors.black87
                       ])),
                 ),
                 Padding(
@@ -69,9 +70,9 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      widget.article!.author!.isEmpty
-                          ? formatDate(widget.article!.publishedAt)
-                          : "By ${widget.article!.author} ${Constant.blackDot} ${formatDate(widget.article!.publishedAt)}",
+                      formatDate(widget.article!.publishedAt),
+                      softWrap: true,
+                      maxLines: 3,
                       style: textThemeWhiteShadow(14,
                           style: FontStyle.normal,
                           blurRadius: 5,
@@ -91,28 +92,46 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                         });
                       },
                       icon: isFavAdded
-                          ? const Icon(Icons.favorite)
+                          ? const Icon(Icons.bookmark_added)
                           : const Icon(
-                              Icons.favorite_border,
+                              Icons.bookmark,
                             ),
-                      color: isFavAdded ? Colors.red : Colors.white,
+                      color: Colors.white,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      widget.article!.title.toString(),
-                      maxLines: 3,
-                      softWrap: true,
-                      style: textThemeWhiteShadow(16,
-                          style: FontStyle.normal,
-                          blurRadius: 5,
-                          color: Colors.black.withOpacity(0.9),
-                          offset: const Offset(0, 1)),
-                    ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          widget.article!.title.toString(),
+                          maxLines: 3,
+                          softWrap: true,
+                          style: textThemeWhiteShadow(15,
+                              style: FontStyle.normal,
+                              blurRadius: 5,
+                              color: Colors.black.withOpacity(0.9),
+                              offset: const Offset(0, 1)),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          "By ${widget.article!.author.toString()}",
+                          maxLines: 3,
+                          softWrap: true,
+                          style: textThemeWhiteShadow(14,
+                              style: FontStyle.normal,
+                              blurRadius: 5,
+                              color: Colors.black.withOpacity(0.9),
+                              offset: const Offset(0, 1)),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],

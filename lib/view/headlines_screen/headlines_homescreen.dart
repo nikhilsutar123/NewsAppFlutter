@@ -53,11 +53,6 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
                           "Top Headlines",
                           style: textThemeBlack(20),
                         ),
-                        // Text(
-                        //   "Show more",
-                        //   style: textThemeBlack(20),
-                        //
-                        // ),
                       ],
                     ),
                   ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app/bloc/bottom_navigation_bloc/bottom_navigation_bloc.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_bloc.dart';
 import 'package:news_app/res/constant.dart';
@@ -9,8 +11,9 @@ import 'package:news_app/view/headlines_screen/headlines_homescreen.dart';
 import 'package:news_app/view/saved_news/saved_news.dart';
 import 'package:news_app/view/saved_news/saved_news_list.dart';
 
-void main() {
+void main() async{
   runApp(const MyApp());
+  await Hive.initFlutter();
 }
 
 class MyApp extends StatelessWidget {

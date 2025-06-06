@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/theme/app_theme.dart';
+import 'package:news_app/util/app_functions.dart';
 
 import '../../res/colors.dart';
 import '../../res/constant.dart';
 
 class SavedNews extends StatefulWidget {
-  const SavedNews({super.key});
+  const SavedNews({super.key, required this.index});
+  final int index;
 
   @override
   State<SavedNews> createState() => _SavedNewsState();
@@ -20,7 +22,7 @@ class _SavedNewsState extends State<SavedNews> {
         InkWell(
           onTap: () {},
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
@@ -45,6 +47,8 @@ class _SavedNewsState extends State<SavedNews> {
                       label: Text(
                         "26 Apr 2025",
                         style: textThemeWhite(12),
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       padding: const EdgeInsets.all(0),
                       backgroundColor: Colors.deepPurple.shade300,
@@ -59,9 +63,9 @@ class _SavedNewsState extends State<SavedNews> {
                     ),
                     Text(
                       "Inside the multi-day meltdown at Newark airport - CNN",
-                      style: textThemeBlackBold(16),
+                      style: textThemeBlackBold(14),
                       softWrap: true,
-                      maxLines: 2,
+                      maxLines: 3,
                     ),
                     const SizedBox(
                       height: 5,
@@ -75,6 +79,13 @@ class _SavedNewsState extends State<SavedNews> {
                   ],
                 ),
               ),
+              const SizedBox(
+                width: 10,
+              ),
+              IconButton(
+                  onPressed: () {
+                    logConsole("deleted ${widget.index}");
+                  }, icon: const Icon(Icons.delete_outline,size: 30,))
             ],
           ),
         ),

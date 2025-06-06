@@ -22,17 +22,20 @@ class _SavedNewsListState extends State<SavedNewsList> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Text(
-              "Saved News",
-              style: textThemeBlackBold(24),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Saved News",
+                style: textThemeBlack(20),
+              ),
             ),
             Expanded(
               child: ListView.builder(
                 itemCount: 10,
                   itemBuilder: (context,index){
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: SavedNews(),
+                  return  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SavedNews(index: index),
                   );
                   }),
             )
