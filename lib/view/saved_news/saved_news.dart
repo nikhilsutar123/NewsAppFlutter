@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/app_functions.dart';
 
@@ -6,8 +7,9 @@ import '../../res/colors.dart';
 import '../../res/constant.dart';
 
 class SavedNews extends StatefulWidget {
-  const SavedNews({super.key, required this.index});
-  final int index;
+  const SavedNews({super.key, required this.savedNews});
+
+  final SavedNewsModel savedNews;
 
   @override
   State<SavedNews> createState() => _SavedNewsState();
@@ -17,6 +19,7 @@ class _SavedNewsState extends State<SavedNews> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final imageUrl = widget.savedNews.imageUrl;
     return Column(
       children: [
         InkWell(
@@ -30,10 +33,22 @@ class _SavedNewsState extends State<SavedNews> {
                 height: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: const Image(
-                    image: AssetImage('lib/asset/image/news.jpg'),
-                    fit: BoxFit.cover,
-                  ),
+                  child: imageUrl != null && imageUrl.isNotEmpty
+                      ? Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stacktrace) {
+                            return Image.asset(Constant.placeholder,
+                                fit: BoxFit.cover);
+                          },
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        )
+                      : Image.asset(Constant.placeholder, fit: BoxFit.cover),
                 ),
               ),
               const SizedBox(
@@ -45,7 +60,7 @@ class _SavedNewsState extends State<SavedNews> {
                   children: [
                     Chip(
                       label: Text(
-                        "26 Apr 2025",
+                        widget.savedNews.publishedAt.toString(),
                         style: textThemeWhite(12),
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
@@ -62,7 +77,7 @@ class _SavedNewsState extends State<SavedNews> {
                       height: 5,
                     ),
                     Text(
-                      "Inside the multi-day meltdown at Newark airport - CNN",
+                      widget.savedNews.title.toString(),
                       style: textThemeBlackBold(14),
                       softWrap: true,
                       maxLines: 3,
@@ -71,7 +86,7 @@ class _SavedNewsState extends State<SavedNews> {
                       height: 5,
                     ),
                     Text(
-                      "By Nikhil Sutar, Nipun, Nikhil",
+                      widget.savedNews.author.toString(),
                       softWrap: true,
                       maxLines: 2,
                       style: textThemeGrey(14),
@@ -84,8 +99,12 @@ class _SavedNewsState extends State<SavedNews> {
               ),
               IconButton(
                   onPressed: () {
-                    logConsole("deleted ${widget.index}");
-                  }, icon: const Icon(Icons.delete_outline,size: 30,))
+                    logConsole("deleted ${widget.savedNews}");
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    size: 30,
+                  ))
             ],
           ),
         ),

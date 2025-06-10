@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
+import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
 import 'package:news_app/data/news_model.dart';
+import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/res/colors.dart';
 import 'package:news_app/util/app_functions.dart';
 
@@ -17,6 +21,19 @@ class HeadlineNewsSingleItem extends StatefulWidget {
 
 class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
   bool isFavAdded = false;
+  SavedNewsModel? model;
+
+  @override
+  void initState() {
+    super.initState();
+    model = SavedNewsModel(
+      title: widget.article?.title,
+      url: widget.article?.url,
+      imageUrl: widget.article?.urlToImage,
+      author: widget.article?.author,
+      publishedAt: formatDate(widget.article!.publishedAt),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +104,9 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
+                        context
+                            .read<SavedNewsBloc>()
+                            .add(AddNewsToSaved(model!));
                         setState(() {
                           isFavAdded = !isFavAdded;
                         });

@@ -24,4 +24,7 @@ class Constant {
 
   /// database name
   static const newsDatabase = "newsBox";
+
+  /// error msgs
+  static const savedNewsLoadError = "Failed to saved news...";
 }
