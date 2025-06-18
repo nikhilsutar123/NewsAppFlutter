@@ -27,4 +27,5 @@ class Constant {
 
   /// error msgs
   static const savedNewsLoadError = "Failed to saved news...";
+  static const savedNewsEmpty = "No Saved News yet.";
 }

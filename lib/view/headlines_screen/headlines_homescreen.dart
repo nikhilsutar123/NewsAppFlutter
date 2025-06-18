@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_event.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_state.dart';
+import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
+import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/api_enum.dart';
@@ -27,6 +29,7 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
     super.initState();
     _bloc = HeadlinesBloc();
     _bloc.add(HeadlinesFetched());
+    context.read<SavedNewsBloc>().add(LoadSavedNews());
   }
 
   @override

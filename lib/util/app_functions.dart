@@ -4,6 +4,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../data/news_model.dart';
+import '../data/saved_news_model.dart';
 import '../res/colors.dart';
 import '../theme/app_theme.dart';
 
@@ -29,7 +31,7 @@ showSnackBar(context, String msg,
         Flexible(
           child: Text(
             msg,
-            style: textThemeBlack(14),
+            style: textThemePrimary(14),
             overflow: TextOverflow.ellipsis,
             softWrap: true,
           ),
@@ -45,4 +47,8 @@ showSnackBar(context, String msg,
 
 String formatDate(DateTime? date) {
   return DateFormat("dd MMM yyyy").format(date!.toLocal()).toString();
+}
+
+bool isSaved(List<SavedNewsModel> savedNews, Article article) {
+  return savedNews.any((saved) => saved.url == article.url);
 }

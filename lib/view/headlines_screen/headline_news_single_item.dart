@@ -5,6 +5,7 @@ import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/res/colors.dart';
+import 'package:news_app/service/hive_service.dart';
 import 'package:news_app/util/app_functions.dart';
 
 import '../../res/constant.dart';
@@ -39,6 +40,8 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final imageUrl = widget.article!.urlToImage;
+    final savedNewsList = context.watch<SavedNewsBloc>().state.savedNews ?? [];
+    isFavAdded = savedNewsList.any((saved) => saved.url == widget.article!.url);
     return SizedBox(
       width: double.infinity,
       height: deviceSize.height / 3.6,
@@ -104,18 +107,17 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        context
-                            .read<SavedNewsBloc>()
-                            .add(AddNewsToSaved(model!));
-                        setState(() {
-                          isFavAdded = !isFavAdded;
-                        });
-                      },
-                      icon: isFavAdded
-                          ? const Icon(Icons.bookmark_added)
-                          : const Icon(
-                              Icons.bookmark,
-                            ),
+                        if(!isFavAdded){
+                          context
+                              .read<SavedNewsBloc>()
+                              .add(AddNewsToSaved(model!));
+                        }else{
+                          showSnackBar(context, "News already saved");
+                        }
+                            },
+                      icon: Icon(
+                        isFavAdded ? Icons.bookmark_added : Icons.bookmark,
+                      ),
                       color: Colors.white,
                     ),
                   ),

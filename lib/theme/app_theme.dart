@@ -7,6 +7,12 @@ TextStyle textThemeBlack(double size, {FontStyle? style}) => TextStyle(
     fontStyle: style ?? FontStyle.normal,
     color: Appcolor.black);
 
+TextStyle textThemePrimary(double size, {FontStyle? style}) => TextStyle(
+    fontSize: size,
+    fontWeight: FontWeight.w400,
+    fontStyle: style ?? FontStyle.normal,
+    color: Appcolor.primaryColor);
+
 TextStyle textThemeGrey(double size, {FontStyle? style}) => TextStyle(
     fontSize: size,
     fontWeight: FontWeight.w400,
