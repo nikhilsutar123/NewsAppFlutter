@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
+import 'package:news_app/bloc/snack_bar_bloc/snackbar_bloc.dart';
+import 'package:news_app/bloc/snack_bar_bloc/snackbar_event.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/res/colors.dart';
@@ -111,8 +113,9 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                           context
                               .read<SavedNewsBloc>()
                               .add(AddNewsToSaved(model!));
+                          context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "News Saved"));
                         }else{
-                          showSnackBar(context, "News already saved");
+                          context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "News already Saved"));
                         }
                             },
                       icon: Icon(

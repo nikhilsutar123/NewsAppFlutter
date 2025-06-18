@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
+import 'package:news_app/bloc/snack_bar_bloc/snackbar_bloc.dart';
+import 'package:news_app/bloc/snack_bar_bloc/snackbar_event.dart';
 import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/app_functions.dart';
@@ -105,6 +107,7 @@ class _SavedNewsState extends State<SavedNews> {
                   onPressed: () {
                     logConsole("deleted ${widget.savedNews}");
                     context.read<SavedNewsBloc>().add(DeleteSavedNews(widget.index));
+                    context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "News deleted"));
                   },
                   icon: const Icon(
                     Icons.delete_outline,

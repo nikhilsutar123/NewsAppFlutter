@@ -69,7 +69,6 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
                             builderDelegate: PagedChildBuilderDelegate<Article>(
                                 animateTransitions: true,
                                 itemBuilder: (context, article, index) {
-                                  logConsole("articles $article");
                                   return HeadlineNewsSingleItem(article: article);
                                 })),
                       );
