@@ -52,3 +52,10 @@ String formatDate(DateTime? date) {
 bool isSaved(List<SavedNewsModel> savedNews, Article article) {
   return savedNews.any((saved) => saved.url == article.url);
 }
+
+void navigateToPage(BuildContext context, Widget page) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => page),
+  );
+}

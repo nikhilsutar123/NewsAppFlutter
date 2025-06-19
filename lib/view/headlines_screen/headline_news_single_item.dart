@@ -9,6 +9,7 @@ import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/res/colors.dart';
 import 'package:news_app/service/hive_service.dart';
 import 'package:news_app/util/app_functions.dart';
+import 'package:news_app/view/webview/news_webview.dart';
 
 import '../../res/constant.dart';
 import '../../theme/app_theme.dart';
@@ -43,12 +44,19 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
     final deviceSize = MediaQuery.of(context).size;
     final imageUrl = widget.article!.urlToImage;
     final savedNewsList = context.watch<SavedNewsBloc>().state.savedNews ?? [];
-    isFavAdded = savedNewsList.any((saved) => saved.url == widget.article!.url);
+    isFavAdded = isSaved(savedNewsList, widget.article!);
     return SizedBox(
       width: double.infinity,
       height: deviceSize.height / 3.6,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          final articleUrl = widget.article!.url;
+          if(articleUrl!.isNotEmpty){
+            navigateToPage(context, NewsWebview(url: articleUrl,));
+          }else{
+            context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "Url not available"));
+          }
+        },
         child: Card(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
