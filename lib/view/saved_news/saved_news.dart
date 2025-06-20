@@ -7,6 +7,7 @@ import 'package:news_app/bloc/snack_bar_bloc/snackbar_event.dart';
 import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/app_functions.dart';
+import 'package:news_app/view/webview/news_webview.dart';
 
 import '../../res/colors.dart';
 import '../../res/constant.dart';
@@ -29,14 +30,21 @@ class _SavedNewsState extends State<SavedNews> {
     return Column(
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            final articleUrl = widget.savedNews.url;
+            if(articleUrl!.isNotEmpty){
+              navigateToPage(context, NewsWebview(url: articleUrl));
+            }else{
+              context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "Url not available"));
+            }
+          },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: 120,
-                height: 120,
+                width: deviceSize.width/4,
+                height: deviceSize.height/4/2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: imageUrl != null && imageUrl.isNotEmpty

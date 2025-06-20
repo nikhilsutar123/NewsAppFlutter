@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:ffi';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -57,5 +59,53 @@ void navigateToPage(BuildContext context, Widget page) {
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => page),
+  );
+}
+
+Future<void> showCircularDialog(BuildContext context) async {
+  return await showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) {
+      return PopScope(
+        canPop: true,
+        onPopInvoked: (didPop) async => false,
+        child: Center(
+          child: Platform.isIOS
+              ? CupertinoAlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  color: Appcolor.primaryColor,
+                ),
+                const SizedBox(height: 16),
+                const Text('Loading...'),
+              ],
+            ),
+            actions: [
+              CupertinoDialogAction(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          )
+              : AlertDialog(
+            content: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  color: Appcolor.primaryColor,
+                ),
+                const SizedBox(width: 16),
+                const Text('Loading...'),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
   );
 }
