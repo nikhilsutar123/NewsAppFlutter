@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
@@ -32,10 +33,12 @@ class _SavedNewsState extends State<SavedNews> {
         InkWell(
           onTap: () {
             final articleUrl = widget.savedNews.url;
-            if(articleUrl!.isNotEmpty){
+            if (articleUrl!.isNotEmpty) {
               navigateToPage(context, NewsWebview(url: articleUrl));
-            }else{
-              context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "Url not available"));
+            } else {
+              context
+                  .read<SnackbarBloc>()
+                  .add(ShowSnackbarEvent(message: "Url not available"));
             }
           },
           child: Row(
@@ -43,24 +46,24 @@ class _SavedNewsState extends State<SavedNews> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: deviceSize.width/4,
-                height: deviceSize.height/4/2,
+                width: deviceSize.width / 4,
+                height: deviceSize.height / 4 / 2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: imageUrl != null && imageUrl.isNotEmpty
-                      ? Image.network(
-                          imageUrl,
+                      ? CachedNetworkImage(
+                          imageUrl: imageUrl.toString(),
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stacktrace) {
+                          errorWidget: (context, error, stacktrace) {
                             return Image.asset(Constant.placeholder,
                                 fit: BoxFit.cover);
                           },
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
+                          progressIndicatorBuilder:
+                              (context, string, downloadProgress) => Center(
+                            child: CircularProgressIndicator(
+                              value: downloadProgress.progress,
+                            ),
+                          ),
                         )
                       : Image.asset(Constant.placeholder, fit: BoxFit.cover),
                 ),
@@ -114,8 +117,12 @@ class _SavedNewsState extends State<SavedNews> {
               IconButton(
                   onPressed: () {
                     logConsole("deleted ${widget.savedNews}");
-                    context.read<SavedNewsBloc>().add(DeleteSavedNews(widget.index));
-                    context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "News deleted"));
+                    context
+                        .read<SavedNewsBloc>()
+                        .add(DeleteSavedNews(widget.index));
+                    context
+                        .read<SnackbarBloc>()
+                        .add(ShowSnackbarEvent(message: "News deleted"));
                   },
                   icon: const Icon(
                     Icons.delete_outline,

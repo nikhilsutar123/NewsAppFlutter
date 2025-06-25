@@ -11,5 +11,6 @@ class Appcolor {
   static Color grey = const Color(0xFF64748B);
   static Color widgetGrey = Colors.grey.shade200;
   static Color primaryColor = Colors.deepPurple.shade300;
+  static Color snackBarTextColor = Colors.deepPurple.shade200;
   static Color secondaryColor = Colors.deepPurple.shade500;
 }

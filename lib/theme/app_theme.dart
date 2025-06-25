@@ -13,6 +13,12 @@ TextStyle textThemePrimary(double size, {FontStyle? style}) => TextStyle(
     fontStyle: style ?? FontStyle.normal,
     color: Appcolor.primaryColor);
 
+TextStyle textThemeSnackBar(double size, {FontStyle? style}) => TextStyle(
+    fontSize: size,
+    fontWeight: FontWeight.w400,
+    fontStyle: style ?? FontStyle.normal,
+    color: Appcolor.snackBarTextColor);
+
 TextStyle textThemeGrey(double size, {FontStyle? style}) => TextStyle(
     fontSize: size,
     fontWeight: FontWeight.w400,

@@ -33,7 +33,7 @@ showSnackBar(context, String msg,
         Flexible(
           child: Text(
             msg,
-            style: textThemePrimary(14),
+            style: textThemeSnackBar(14),
             overflow: TextOverflow.ellipsis,
             softWrap: true,
           ),
@@ -42,7 +42,7 @@ showSnackBar(context, String msg,
     ),
     action: (onPress != null)
         ? SnackBarAction(
-            textColor: Appcolor.black, label: label ?? "", onPressed: onPress!)
+            textColor: Appcolor.black, label: label ?? "", onPressed: onPress)
         : null,
   ));
 }

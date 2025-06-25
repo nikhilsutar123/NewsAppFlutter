@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
@@ -51,10 +52,16 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
       child: InkWell(
         onTap: () {
           final articleUrl = widget.article!.url;
-          if(articleUrl!.isNotEmpty){
-            navigateToPage(context, NewsWebview(url: articleUrl,));
-          }else{
-            context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "Url not available"));
+          if (articleUrl!.isNotEmpty) {
+            navigateToPage(
+                context,
+                NewsWebview(
+                  url: articleUrl,
+                ));
+          } else {
+            context
+                .read<SnackbarBloc>()
+                .add(ShowSnackbarEvent(message: "Url not available"));
           }
         },
         child: Card(
@@ -67,19 +74,19 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
               fit: StackFit.expand,
               children: [
                 imageUrl != null && imageUrl.isNotEmpty
-                    ? Image.network(
-                        imageUrl,
+                    ? CachedNetworkImage(
+                        imageUrl: imageUrl.toString(),
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stacktrace) {
+                        errorWidget: (context, error, stacktrace) {
                           return Image.asset(Constant.placeholder,
                               fit: BoxFit.cover);
                         },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
+                        progressIndicatorBuilder:
+                            (context, string, downloadProgress) => Center(
+                          child: CircularProgressIndicator(
+                            value: downloadProgress.progress,
+                          ),
+                        ),
                       )
                     : Image.asset(Constant.placeholder, fit: BoxFit.cover),
                 Container(
@@ -117,15 +124,18 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        if(!isFavAdded){
+                        if (!isFavAdded) {
                           context
                               .read<SavedNewsBloc>()
                               .add(AddNewsToSaved(model!));
-                          context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "News Saved"));
-                        }else{
-                          context.read<SnackbarBloc>().add(ShowSnackbarEvent(message: "News already Saved"));
+                          context
+                              .read<SnackbarBloc>()
+                              .add(ShowSnackbarEvent(message: "News Saved"));
+                        } else {
+                          context.read<SnackbarBloc>().add(
+                              ShowSnackbarEvent(message: "News already Saved"));
                         }
-                            },
+                      },
                       icon: Icon(
                         isFavAdded ? Icons.bookmark_added : Icons.bookmark,
                       ),

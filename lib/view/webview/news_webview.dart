@@ -28,9 +28,15 @@ class NewsWebview extends StatelessWidget {
                       await launchUrl(Uri.parse(url!));
                     }
                   },
-                  child: Text(
-                    "Open in browser",
-                    style: textThemeBlack(14),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.open_in_browser),
+                      Text(
+                        "Open in browser",
+                        style: textThemeBlack(14),
+                      ),
+                    ],
                   )),
             ),
           )
