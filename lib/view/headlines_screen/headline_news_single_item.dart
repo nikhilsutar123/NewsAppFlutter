@@ -27,7 +27,7 @@ class HeadlineNewsSingleItem extends StatefulWidget {
 class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
   bool isFavAdded = false;
   SavedNewsModel? model;
-
+ bool isTesting  = const bool.fromEnvironment("FLUTTER_TEST");
   @override
   void initState() {
     super.initState();
@@ -73,7 +73,7 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                imageUrl != null && imageUrl.isNotEmpty
+                imageUrl != null && imageUrl.isNotEmpty && !isTesting
                     ? CachedNetworkImage(
                         imageUrl: imageUrl.toString(),
                         fit: BoxFit.cover,
