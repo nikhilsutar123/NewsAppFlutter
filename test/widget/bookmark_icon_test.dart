@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:news_app/bloc/bottom_navigation_bloc/bottom_navigation_bloc.dart';
+import 'package:news_app/bloc/headlines_bloc/headlines_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_state.dart';
+import 'package:news_app/bloc/snack_bar_bloc/snackbar_bloc.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/data/saved_news_model.dart';
 import 'package:news_app/util/api_enum.dart';
@@ -26,7 +29,7 @@ void main() {
       url:
           "https://www.indiatvnews.com/auto/elon-musk-s-robotaxi-project-under-fire-after-wrong-way-driving-video-surfaces-2025-06-25-996119",
       imageUrl:
-          "https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2025/06/musk-s-robotaxi-project-under-fire-1750818402.webp",
+          "",
       author: "om gupta",
       publishedAt: "2025-06-25T05:31:40Z");
 
@@ -44,20 +47,22 @@ void main() {
   testWidgets("Tapping bookmark event dispatches addNewsToSaved event",
       (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
-      home: BlocProvider<SavedNewsBloc>.value(
-        value: mockSavedNewsBloc,
-        child: Scaffold(
-          body: HeadlineNewsSingleItem(
-            article: Article(
-                author: testArticle.author,
-                url: testArticle.url,
-                urlToImage: testArticle.imageUrl,
-                title: testArticle.title,
-                publishedAt:
-                    DateTime.parse(testArticle.publishedAt.toString())),
+      home: MultiBlocProvider(providers: [
+        BlocProvider(create: (_) => HeadlinesBloc()),
+        BlocProvider(create: (_) => BottomNavigationBloc()),
+        BlocProvider<SavedNewsBloc>.value(value: mockSavedNewsBloc),
+        BlocProvider(create: (_) => SnackbarBloc()),
+      ], child: Scaffold(
+        body: HeadlineNewsSingleItem(
+          article: Article(
+            author: testArticle.author,
+            url: testArticle.url,
+            urlToImage: '', // empty to avoid network call
+            title: testArticle.title,
+            publishedAt: DateTime.parse(testArticle.publishedAt.toString()),
           ),
         ),
-      ),
+      ))
     ));
 
     await tester.pumpAndSettle();
@@ -66,8 +71,6 @@ void main() {
 
     await tester.tap(bookmarkIcon);
     await tester.pumpAndSettle();
-
-    debugDumpApp();
 
     verify(() => mockSavedNewsBloc.add(AddNewsToSaved(testArticle))).called(1);
   });
