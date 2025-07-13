@@ -4,6 +4,8 @@ class Constant {
   /// api constants*
   static const baseUrl = "https://newsapi.org/v2/";
   static const headlines = "${baseUrl}top-headlines";
+  static const searchNews = "${baseUrl}everything";
+  static const defaultPageSize = "20";
   static const countryCodeUs = "us";
   static const apiKey = "c9352055c9294ad588fcd013fe50381c";
 

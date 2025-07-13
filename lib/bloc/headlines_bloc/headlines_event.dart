@@ -7,3 +7,5 @@ abstract class HeadlinesEvent extends Equatable {
 }
 
 class HeadlinesFetched extends HeadlinesEvent {}
+
+class NewsSearched extends HeadlinesEvent {}
