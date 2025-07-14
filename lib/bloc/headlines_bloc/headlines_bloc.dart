@@ -1,15 +1,9 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/repository/headlines_repository.dart';
-import 'package:news_app/util/api_enum.dart';
-import 'package:news_app/util/app_functions.dart';
 
 import 'headlines_event.dart';
-import 'headlines_state.dart';
 
 class HeadlinesBloc extends Bloc<HeadlinesEvent, PagingState<int, Article>> {
   final HeadlinesRepository repository = HeadlinesRepository();
@@ -44,4 +38,13 @@ class HeadlinesBloc extends Bloc<HeadlinesEvent, PagingState<int, Article>> {
   }
 
   void fetchNextPage() => add(HeadlinesFetched());
+
+  Future<void> _getSearchedNews(
+      NewsSearched event, Emitter<PagingState<int, Article>> emit) async {
+    if(!state.hasNextPage || state.isLoading) return;
+    emit(state.copyWith(isLoading: true,error: null));
+    try{
+      final nextPage = (state.keys?.last ?? 0) + 1;
+    }catch(e){}
+  }
 }
