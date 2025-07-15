@@ -38,13 +38,4 @@ class HeadlinesBloc extends Bloc<HeadlinesEvent, PagingState<int, Article>> {
   }
 
   void fetchNextPage() => add(HeadlinesFetched());
-
-  Future<void> _getSearchedNews(
-      NewsSearched event, Emitter<PagingState<int, Article>> emit) async {
-    if(!state.hasNextPage || state.isLoading) return;
-    emit(state.copyWith(isLoading: true,error: null));
-    try{
-      final nextPage = (state.keys?.last ?? 0) + 1;
-    }catch(e){}
-  }
 }
