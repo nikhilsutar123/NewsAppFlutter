@@ -23,6 +23,7 @@ class Constant {
   static const placeholder = "lib/asset/image/placeholder.png";
   static const homescreenIcon = "lib/asset/image/home.svg";
   static const savedNewsIcon = "lib/asset/image/saved.svg";
+  static const searchNewsIcon = "lib/asset/image/search.svg";
 
   /// database name
   static const newsDatabase = "newsBox";

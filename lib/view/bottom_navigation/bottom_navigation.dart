@@ -11,6 +11,7 @@ import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/app_functions.dart';
 import 'package:news_app/view/headlines_screen/headlines_homescreen.dart';
 import 'package:news_app/view/saved_news/saved_news_list.dart';
+import 'package:news_app/view/search_news_screen/search_news_screen.dart';
 
 import '../../res/constant.dart';
 
@@ -24,6 +25,7 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget> _screens = [
     const HeadlinesHomescreen(),
+    const SearchNewsScreen(),
     const SavedNewsList()
   ];
 
@@ -72,7 +74,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     _buildNavItem(Constant.homescreenIcon,
                         state.selectedIndex == 0, "Home"),
                     _buildNavItem(Constant.savedNewsIcon,
-                        state.selectedIndex == 1, "Saved"),
+                        state.selectedIndex == 1, "Search"),
+                    _buildNavItem(Constant.savedNewsIcon,
+                        state.selectedIndex == 2, "Saved"),
                   ],
                 ),
               ),
