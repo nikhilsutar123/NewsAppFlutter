@@ -37,7 +37,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           colorFilter: ColorFilter.mode(
               isActive ? Appcolor.primaryColor : Appcolor.black,
               BlendMode.srcIn),
-        ),
+        ), 
         label: label);
   }
 
@@ -73,7 +73,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   items: [
                     _buildNavItem(Constant.homescreenIcon,
                         state.selectedIndex == 0, "Home"),
-                    _buildNavItem(Constant.savedNewsIcon,
+                    _buildNavItem(Constant.searchNewsIcon,
                         state.selectedIndex == 1, "Search"),
                     _buildNavItem(Constant.savedNewsIcon,
                         state.selectedIndex == 2, "Saved"),

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
 import 'package:news_app/bloc/search_news_bloc/search_news_bloc.dart';
+import 'package:news_app/bloc/search_news_bloc/search_news_event.dart';
 import 'package:news_app/res/colors.dart';
 import 'package:news_app/theme/app_theme.dart';
+import 'package:news_app/view/headlines_screen/headline_news_single_item.dart';
 
 import '../../bloc/saved_news_bloc/saved_news_bloc.dart';
+import '../../data/news_model.dart';
 
 class SearchNewsScreen extends StatefulWidget {
   const SearchNewsScreen({super.key});
@@ -51,7 +55,22 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
                           borderSide: BorderSide(color: Appcolor.primaryColor),
                           borderRadius: BorderRadius.circular(10))),
                 ),
-              )
+              ),
+              // BlocBuilder<SearchNewsBloc, PagingState<int, Article>>(
+              //     bloc: _bloc,
+              //     builder: (context, state) {
+              //       return Expanded(
+              //           child: PagedListView(
+              //               state: state,
+              //               fetchNextPage: _bloc.fetchNextPage,
+              //               builderDelegate: PagedChildBuilderDelegate<Article>(
+              //                   animateTransitions: true,
+              //                   itemBuilder: (context, article, index) {
+              //                     return HeadlineNewsSingleItem(
+              //                       article: article,
+              //                     );
+              //                   })));
+              //     })
             ],
           ),
         )),
