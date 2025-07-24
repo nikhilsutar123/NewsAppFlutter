@@ -3,7 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app/bloc/search_news_bloc/search_news_event.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/util/app_functions.dart';
-
+import 'package:rxdart/rxdart.dart';
 import '../../repository/headlines_repository.dart';
 
 class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
@@ -12,6 +12,22 @@ class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
 
   SearchNewsBloc() : super(PagingState<int, Article>()) {
     on<NewsSearched>(_getSearchedNews);
+  }
+
+  @override
+  Stream<Transition<SearchNewsEvent, PagingState<int, Article>>>
+      transformEvents(
+          Stream<SearchNewsEvent> events,
+          Stream<Transition<SearchNewsEvent, PagingState<int, Article>>>
+                  Function(SearchNewsEvent)
+              transFn) {
+    final nonDebounceStream = events.where((event) => event is! NewsSearched);
+    final debounceStream = events
+        .where((event) => event is NewsSearched)
+        .debounceTime(const Duration(milliseconds: 500));
+
+    return MergeStream([nonDebounceStream, debounceStream])
+        .asyncExpand(transFn);
   }
 
   Future<void> _getSearchedNews(
