@@ -6,6 +6,7 @@ import 'package:news_app/bloc/bottom_navigation_bloc/bottom_navigation_bloc.dart
 import 'package:news_app/bloc/headlines_bloc/headlines_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
+import 'package:news_app/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:news_app/bloc/snack_bar_bloc/snackbar_bloc.dart';
 import 'package:news_app/res/constant.dart';
 import 'package:news_app/util/app_bloc_providers.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => BottomNavigationBloc()),
         BlocProvider(create: (_) => SavedNewsBloc()),
         BlocProvider(create: (_) => SnackbarBloc()),
+        BlocProvider(create: (_) => SearchNewsBloc()),
       ],
       child:
           const MaterialApp(title: Constant.newsApp, home: BottomNavigation()),

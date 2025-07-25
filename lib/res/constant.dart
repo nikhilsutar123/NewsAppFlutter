@@ -25,6 +25,10 @@ class Constant {
   static const savedNewsIcon = "lib/asset/image/saved.svg";
   static const searchNewsIcon = "lib/asset/image/search.svg";
 
+  ///lottie animations
+  static const searchNewsPlaceholder =
+      "lib/asset/lottie_anim/search_anim.json";
+
   /// database name
   static const newsDatabase = "newsBox";
 

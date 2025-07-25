@@ -11,33 +11,27 @@ class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
   String query = "";
 
   SearchNewsBloc() : super(PagingState<int, Article>()) {
-    on<NewsSearched>(_getSearchedNews);
-  }
-
-  @override
-  Stream<Transition<SearchNewsEvent, PagingState<int, Article>>>
-      transformEvents(
-          Stream<SearchNewsEvent> events,
-          Stream<Transition<SearchNewsEvent, PagingState<int, Article>>>
-                  Function(SearchNewsEvent)
-              transFn) {
-    final nonDebounceStream = events.where((event) => event is! NewsSearched);
-    final debounceStream = events
-        .where((event) => event is NewsSearched)
-        .debounceTime(const Duration(milliseconds: 500));
-
-    return MergeStream([nonDebounceStream, debounceStream])
-        .asyncExpand(transFn);
+    on<NewsSearched>(_getSearchedNews,
+        transformer: (event, mapper) => event
+            .debounceTime(const Duration(milliseconds: 900))
+            .asyncExpand(mapper));
   }
 
   Future<void> _getSearchedNews(
       NewsSearched event, Emitter<PagingState<int, Article>> emit) async {
+    logConsole("inside search method...");
     if (!state.hasNextPage || state.isLoading) return;
 
+    if (event.query.trim().isEmpty) {
+      emit(PagingState<int, Article>()); // reset
+      return;
+    }
+
+    query = event.query;
     emit(state.copyWith(isLoading: true, error: null));
     try {
       final nextPage = (state.keys?.last ?? 0) + 1;
-      query = concatString(event.query);
+      logConsole("query value ${query}");
       final response =
           await repository.searchNewsRepo(query, nextPage.toString());
 
@@ -47,6 +41,9 @@ class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
       });
 
       final newsItem = newsList.articles ?? [];
+      for (Article news in newsItem) {
+        logConsole("${news.title}");
+      }
       final isLastPage = newsItem.isEmpty;
 
       emit(state.copyWith(
