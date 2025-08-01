@@ -20,14 +20,18 @@ class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
   Future<void> _getSearchedNews(
       NewsSearched event, Emitter<PagingState<int, Article>> emit) async {
     logConsole("inside search method...");
+    final newQuery = event.query.trim();
+    if(query != newQuery){
+      query = newQuery;
+      emit(PagingState<int, Article>());
+    }
     if (!state.hasNextPage || state.isLoading) return;
 
-    if (event.query.trim().isEmpty) {
+    if (query.trim().isEmpty) {
       emit(PagingState<int, Article>()); // reset
       return;
     }
 
-    query = event.query;
     emit(state.copyWith(isLoading: true, error: null));
     try {
       final nextPage = (state.keys?.last ?? 0) + 1;
@@ -41,10 +45,10 @@ class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
       });
 
       final newsItem = newsList.articles ?? [];
+      final isLastPage = newsItem.isEmpty;
       for (Article news in newsItem) {
         logConsole("${news.title}");
       }
-      final isLastPage = newsItem.isEmpty;
 
       emit(state.copyWith(
           pages: [...?state.pages, newsItem],

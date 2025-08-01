@@ -111,9 +111,4 @@ Future<void> showCircularDialog(BuildContext context) async {
   );
 }
 
-String concatString(String str){
-  if(str.contains(" ")){
-    str.replaceAll(" ", "+");
-  }
-  return str;
-}
+String concatString(String str) =>  str.replaceAll(" ", "+");

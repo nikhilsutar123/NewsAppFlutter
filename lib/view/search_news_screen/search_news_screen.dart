@@ -66,14 +66,22 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
                   ),
                   onChanged: (value) {
                     query = concatString(value);
-                    context.read<SearchNewsBloc>().add(NewsSearched(query.toString()));
+                    context
+                        .read<SearchNewsBloc>()
+                        .add(NewsSearched(query.toString()));
                   },
                 ),
               ),
               BlocBuilder<SearchNewsBloc, PagingState<int, Article>>(
                   bloc: _bloc,
                   builder: (context, state) {
-                    final isQueryEmpty = _bloc.query.trim().isEmpty;
+                    final items = state.pages?.expand((e) => e).toList() ?? [];
+                    final isQueryEmpty =
+                        (state.pages?.expand((e) => e).isEmpty ?? true) &&
+                            !_bloc.state.isLoading;
+                    logConsole(
+                        "loaded items: ${state.pages?.expand((e) => e).length ?? 0}");
+                    logConsole("value of isQueryEmpty $isQueryEmpty");
                     if (isQueryEmpty) {
                       return Column(
                         children: [
@@ -90,49 +98,14 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
                       );
                     }
                     return Expanded(
-                        child: PagedListView(
-                            state: state,
-                            fetchNextPage: _bloc.fetchNextPage,
-                            builderDelegate: PagedChildBuilderDelegate<Article>(
-                                animateTransitions: true,
-                                itemBuilder: (context, article, index) {
-                                  return HeadlineNewsSingleItem(
-                                    article: article,
-                                  );
-                                },
-                                firstPageProgressIndicatorBuilder: (_) =>
-                                    const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                noItemsFoundIndicatorBuilder: (_) => Center(
-                                      child: Text(
-                                        "No News found for ${_bloc.query}.",
-                                        style: textThemeGrey(16),
-                                      ),
-                                    ),
-                                firstPageErrorIndicatorBuilder: (_) => Center(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            "Failed to load news. Please try again.",
-                                            style: textThemeGrey(16),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0),
-                                            child: CustomOutlinedButton(
-                                                text: "Retry",
-                                                onPressed: () {
-                                                  _bloc.fetchNextPage();
-                                                },
-                                                borderColor:
-                                                    Appcolor.secondaryColor,
-                                                textStyle:
-                                                    textThemePrimary(14)),
-                                          )
-                                        ],
-                                      ),
-                                    ))));
+                      child: ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          logConsole("article data: ${items.length}");
+                          return HeadlineNewsSingleItem(article: items[index]);
+                        },
+                      ),
+                    );
                   })
             ],
           ),
