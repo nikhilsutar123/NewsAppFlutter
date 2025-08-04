@@ -24,11 +24,12 @@ class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
     if(query != newQuery){
       query = newQuery;
       emit(PagingState<int, Article>());
+      await Future.delayed(Duration(milliseconds: 10));
     }
     if (!state.hasNextPage || state.isLoading) return;
 
     if (query.trim().isEmpty) {
-      emit(PagingState<int, Article>()); // reset
+      emit(PagingState<int, Article>());
       return;
     }
 
@@ -55,6 +56,7 @@ class SearchNewsBloc extends Bloc<SearchNewsEvent, PagingState<int, Article>> {
           keys: [...?state.keys, nextPage],
           hasNextPage: !isLastPage,
           isLoading: false));
+      logConsole("state emitted: ${state.pages?.length}");
     } catch (e) {
       emit(state.copyWith(error: e, isLoading: false));
     }

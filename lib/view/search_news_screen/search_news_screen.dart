@@ -66,47 +66,48 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
                   ),
                   onChanged: (value) {
                     query = concatString(value);
-                    context
-                        .read<SearchNewsBloc>()
-                        .add(NewsSearched(query.toString()));
+                    _bloc.add(NewsSearched(query.toString()));
                   },
                 ),
               ),
-              BlocBuilder<SearchNewsBloc, PagingState<int, Article>>(
-                  bloc: _bloc,
-                  builder: (context, state) {
-                    final items = state.pages?.expand((e) => e).toList() ?? [];
-                    final isQueryEmpty =
-                        (state.pages?.expand((e) => e).isEmpty ?? true) &&
-                            !_bloc.state.isLoading;
-                    logConsole(
-                        "loaded items: ${state.pages?.expand((e) => e).length ?? 0}");
-                    logConsole("value of isQueryEmpty $isQueryEmpty");
-                    if (isQueryEmpty) {
-                      return Column(
-                        children: [
-                          Lottie.asset(
-                            Constant.searchNewsPlaceholder,
-                            height: deviceSize.height / 4,
-                          ),
-                          Text(
-                            textAlign: TextAlign.center,
-                            "Looking for some juicy headlines? \nStart typing!",
-                            style: textThemeGrey(18),
-                          )
-                        ],
-                      );
-                    }
-                    return Expanded(
-                      child: ListView.builder(
+              Expanded(
+                child: BlocBuilder<SearchNewsBloc, PagingState<int, Article>>(
+                    bloc: _bloc,
+                    builder: (context, state) {
+                      final pages = state.pages ?? [];
+                      final items = pages.expand((e) => e).toList();
+                      final isQueryEmpty =
+                          (state.pages?.expand((e) => e).isEmpty ?? true) &&
+                              !state.isLoading;
+                      logConsole(
+                          "loaded items: ${state.pages?.expand((e) => e).length ?? 0}");
+                      logConsole("pages ${pages.length}");
+                      logConsole("UI items length: ${items.length}");
+
+                      logConsole("value of isQueryEmpty $isQueryEmpty");
+                      if (isQueryEmpty) {
+                        return Column(
+                          children: [
+                            Lottie.asset(
+                              Constant.searchNewsPlaceholder,
+                              height: deviceSize.height / 4,
+                            ),
+                            Text(
+                              textAlign: TextAlign.center,
+                              "Looking for some juicy headlines? \nStart typing!",
+                              style: textThemeGrey(18),
+                            )
+                          ],
+                        );
+                      }
+                      return ListView.builder(
                         itemCount: items.length,
                         itemBuilder: (context, index) {
-                          logConsole("article data: ${items.length}");
                           return HeadlineNewsSingleItem(article: items[index]);
                         },
-                      ),
-                    );
-                  })
+                      );
+                    }),
+              )
             ],
           ),
         )),
