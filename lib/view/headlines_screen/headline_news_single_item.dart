@@ -27,7 +27,8 @@ class HeadlineNewsSingleItem extends StatefulWidget {
 class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
   bool isFavAdded = false;
   SavedNewsModel? model;
- //bool isTesting  = const bool.fromEnvironment("FLUTTER_TEST");
+
+  //bool isTesting  = const bool.fromEnvironment("FLUTTER_TEST");
   @override
   void initState() {
     super.initState();
@@ -136,8 +137,17 @@ class _HeadlineNewsSingleItemState extends State<HeadlineNewsSingleItem> {
                               ShowSnackbarEvent(message: "News already Saved"));
                         }
                       },
-                      icon: Icon(
-                        isFavAdded ? Icons.bookmark_added : Icons.bookmark,
+                      icon: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder: (child, animation) =>
+                            ScaleTransition(
+                          scale: animation,
+                          child: child,
+                        ),
+                        child: Icon(
+                          isFavAdded ? Icons.bookmark_added : Icons.bookmark,
+                          key: ValueKey(isFavAdded),
+                        ),
                       ),
                       color: Colors.white,
                     ),
