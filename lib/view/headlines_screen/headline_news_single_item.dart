@@ -7,8 +7,6 @@ import 'package:news_app/bloc/snack_bar_bloc/snackbar_bloc.dart';
 import 'package:news_app/bloc/snack_bar_bloc/snackbar_event.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/data/saved_news_model.dart';
-import 'package:news_app/res/colors.dart';
-import 'package:news_app/service/hive_service.dart';
 import 'package:news_app/util/app_functions.dart';
 import 'package:news_app/view/webview/news_webview.dart';
 

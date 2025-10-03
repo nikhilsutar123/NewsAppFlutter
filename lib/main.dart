@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app/bloc/bottom_navigation_bloc/bottom_navigation_bloc.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_bloc.dart';
@@ -9,11 +8,7 @@ import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
 import 'package:news_app/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:news_app/bloc/snack_bar_bloc/snackbar_bloc.dart';
 import 'package:news_app/res/constant.dart';
-import 'package:news_app/util/app_bloc_providers.dart';
 import 'package:news_app/view/bottom_navigation/bottom_navigation.dart';
-import 'package:news_app/view/headlines_screen/headlines_homescreen.dart';
-import 'package:news_app/view/saved_news/saved_news.dart';
-import 'package:news_app/view/saved_news/saved_news_list.dart';
 
 import 'data/saved_news_model.dart';
 

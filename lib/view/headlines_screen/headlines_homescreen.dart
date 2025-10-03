@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app/bloc/headlines_bloc/headlines_event.dart';
-import 'package:news_app/bloc/headlines_bloc/headlines_state.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_bloc.dart';
 import 'package:news_app/bloc/saved_news_bloc/saved_news_event.dart';
 import 'package:news_app/data/news_model.dart';
 import 'package:news_app/theme/app_theme.dart';
-import 'package:news_app/util/api_enum.dart';
-import 'package:news_app/util/app_exceptions.dart';
-import 'package:news_app/util/app_functions.dart';
 import 'package:news_app/view/headlines_screen/headline_news_single_item.dart';
 
 import '../../bloc/headlines_bloc/headlines_bloc.dart';

@@ -10,7 +10,6 @@ import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/util/app_functions.dart';
 import 'package:news_app/view/webview/news_webview.dart';
 
-import '../../res/colors.dart';
 import '../../res/constant.dart';
 
 class SavedNews extends StatefulWidget {
