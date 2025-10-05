@@ -22,7 +22,7 @@ class SearchNewsScreen extends StatefulWidget {
   State<SearchNewsScreen> createState() => _SearchNewsScreenState();
 }
 
-class _SearchNewsScreenState extends State<SearchNewsScreen> {
+class _SearchNewsScreenState extends State<SearchNewsScreen> with AutomaticKeepAliveClientMixin{
   late final SearchNewsBloc _bloc;
   final TextEditingController _controller = TextEditingController();
   String? query;
@@ -43,6 +43,7 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
@@ -79,12 +80,6 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
                       final isQueryEmpty =
                           (state.pages?.expand((e) => e).isEmpty ?? true) &&
                               !state.isLoading;
-                      logConsole(
-                          "loaded items: ${state.pages?.expand((e) => e).length ?? 0}");
-                      logConsole("pages ${pages.length}");
-                      logConsole("UI items length: ${items.length}");
-
-                      logConsole("value of isQueryEmpty $isQueryEmpty");
                       if (isQueryEmpty) {
                         return Column(
                           children: [
@@ -103,7 +98,21 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
                       return ListView.builder(
                         itemCount: items.length,
                         itemBuilder: (context, index) {
-                          return HeadlineNewsSingleItem(article: items[index]);
+                          return TweenAnimationBuilder<double>(
+                            tween: Tween(begin: 0.8, end: 1),
+                            duration: Duration(milliseconds: 200 * index),
+                            curve: Curves.easeOutCirc,
+                            builder: (context, value, child) {
+                              return Opacity(
+                                  opacity: value.clamp(0.0, 1.0),
+                                  child: Transform.scale(
+                                    scale: value,
+                                    child: child,
+                                  ));
+                            },
+                            child:
+                                HeadlineNewsSingleItem(article: items[index]),
+                          );
                         },
                       );
                     }),
@@ -114,4 +123,8 @@ class _SearchNewsScreenState extends State<SearchNewsScreen> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -69,7 +69,22 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
                             builderDelegate: PagedChildBuilderDelegate<Article>(
                                 animateTransitions: true,
                                 itemBuilder: (context, article, index) {
-                                  return HeadlineNewsSingleItem(article: article);
+                                  return TweenAnimationBuilder<double>(
+                                    tween: Tween(begin: 0.8, end: 1),
+                                    duration:
+                                        Duration(milliseconds: 200 * index),
+                                    curve: Curves.easeOutCirc,
+                                    builder: (context, value, child) {
+                                      return Opacity(
+                                          opacity: value.clamp(0.0, 1.0),
+                                          child: Transform.scale(
+                                            scale: value,
+                                            child: child,
+                                          ));
+                                    },
+                                    child: HeadlineNewsSingleItem(
+                                        article: article),
+                                  );
                                 })),
                       );
                     },
