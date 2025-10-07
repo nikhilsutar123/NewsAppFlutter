@@ -53,7 +53,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
             }
           },
           child: Scaffold(
-            body: _screens[state.selectedIndex],
+            body: IndexedStack(
+              index: state.selectedIndex,
+                children: _screens,),
             bottomNavigationBar: Container(
               decoration: const BoxDecoration(boxShadow: [
                 BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10)
