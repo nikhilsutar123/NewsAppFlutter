@@ -1,3 +1,18 @@
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+plugins {
+    // Add the dependency for the Crashlytics Gradle plugin
+    id 'com.google.firebase.crashlytics' version '3.0.6' apply false
+}
+
 allprojects {
     repositories {
         google()
@@ -16,3 +31,6 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+
+

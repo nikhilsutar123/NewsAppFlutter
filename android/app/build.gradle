@@ -3,6 +3,7 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.firebase.crashlytics'
 }
 
 def localProperties = new Properties()
@@ -33,7 +34,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions{
+    kotlinOptions {
         jvmTarget = "17"
     }
 
@@ -57,6 +58,13 @@ android {
     }
 }
 
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:34.3.0')
+    implementation("com.google.firebase:firebase-crashlytics-ndk")
+    implementation 'com.google.firebase:firebase-analytics'
+}
+
 flutter {
     source = "../.."
 }
+apply plugin: 'com.google.gms.google-services'

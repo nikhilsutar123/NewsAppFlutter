@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -14,6 +18,13 @@ import 'data/saved_news_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  PlatformDispatcher.instance.onError = (error,stacktrace){
+    FirebaseCrashlytics.instance.recordError(error, stacktrace,fatal: true);
+    return true;
+  };
   await Hive.initFlutter();
   Hive.registerAdapter(SavedNewsModelAdapter());
 

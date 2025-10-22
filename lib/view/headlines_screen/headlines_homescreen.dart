@@ -52,6 +52,9 @@ class _HeadlinesHomescreenState extends State<HeadlinesHomescreen> {
                           "Top Headlines",
                           style: textThemeBlack(20),
                         ),
+                        ElevatedButton(onPressed: (){
+                          throw Exception('Test Crash!');
+                        }, child: const Text('Crash app'))
                       ],
                     ),
                   ),
