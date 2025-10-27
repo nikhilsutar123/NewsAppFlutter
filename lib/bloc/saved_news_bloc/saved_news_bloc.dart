@@ -5,9 +5,11 @@ import 'package:news_app/service/hive_service.dart';
 import 'package:news_app/util/api_enum.dart';
 
 class SavedNewsBloc extends Bloc<SavedNewsEvent, SavedNewsState> {
-   HiveService hiveService = HiveService();
+  HiveService hiveService = HiveService();
 
-  SavedNewsBloc() : super(const SavedNewsState()) {
+  SavedNewsBloc({HiveService? hiveService})
+      : hiveService = hiveService ?? HiveService(),
+        super(const SavedNewsState()) {
     on<LoadSavedNews>(_onLoadNews);
     on<AddNewsToSaved>(_onAddNews);
     on<DeleteSavedNews>(_onDeleteNews);
